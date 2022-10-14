@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:refactoring/photo_card.dart';
+import 'package:refactoring/pj_button.dart';
 import 'package:refactoring/user_info.dart';
 
 void main() {
@@ -32,20 +33,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String a = 'Поделиться'; //Переменная содержащяя текст Поделиться
-  String b = 'Написать';//Переменная содержащяя текст Написать
-  String title = ''; //Оглавление
-  bool another_title = false;//Параметр изменения текста кнопки
+
+  ///todo:Пояснения
+  ///Вся отрисовка во флаттере происходит через одну функцияю build,
+  ///однако сами виджеты отрисовки являются отдельными классами
 
 
-  //Функция отрисовки экрана
+  ///В данном классе можно заметить дублирование кода и большой класс(по меркам флаттера)
+  ///Поэтому были применен метод Extract Class.
+  ///
+  /// Также код очищен от бесполезных комментариев
+  ///
+  /// Функция Get_TITLEcontainer мало того, что не соотвествует неймингу Flutter(lowerCammelCase), так и не несет в себе никакой сути
+  /// Как и переменные a, b, title, another_title всех их можно уничтожить
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(//Формирование базвого шаблона
-      appBar: AppBar(//Заголовок приложения
-        title: Text(widget.title),//Оглавление заголовка
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-      body: Padding(//Отступ по бокам экрана
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(//Основная колонка с содержимым экрана
           children: [
@@ -55,28 +63,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.circular(300),
                   child: Image.network(
                     'https://bipbap.ru/wp-content/uploads/2021/07/1551512888_2-730x617.jpg',//Ссылка на аватар
-                    height: 100,//Размер аватара 1
-                    width: 100,//Размер аватара 2
+                    height: 100,
+                    width: 100,
                     fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
                   width: 50,
                 ),
-                Padding(// Отступ для контента о себе
+                Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
+                  child: Column(//Информация о пользователе
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Енот Валерий',//Имя пользователя
+                        'Енот Валерий',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       Text(
-                        'Обо мне'.toUpperCase(),//Заголовок о себе
+                        'Обо мне'.toUpperCase(),
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),//Стили заголовка
                       ),
                       SizedBox(
@@ -85,8 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(
                           width: 600,
                           child: Text(
-                            'Я крутой енот Инокентий, проживающий на территории воображаемой страны ',//Описание пользователя
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),//Стили описания
+                            'Я крутой енот Инокентий, проживающий на территории воображаемой страны ',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                           )),
                     ],
                   ),
@@ -100,22 +108,19 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 30,),
             //Блок с фото
             Center(
-              child: Row(
+              child: Row(//Фотографии пользователя
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  //Фото 1
                   PhotoCard(
                       image:
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwsx3qY47xpk0Bx98j3fbTURp7ZPzzI3x6Ky9IF7n3eHywERE-UC5tjf9ccJHOvw-rDjA&usqp=CAU'),
                   SizedBox(
                     width: 10,
                   ),
-                  //Фото 2
                   PhotoCard(image: 'https://vot-enot.com/wp-content/uploads/2021/12/scale_1200-e1649948122460.jpg'),
                   SizedBox(
                     width: 10,
                   ),
-                  //Фото 3
                   PhotoCard(
                       image:
                           'https://static.mk.ru/upload/entities/2015/08/10/articles/detailPicture/6e/0c/65/829952131_3022582.jpg'),
@@ -128,51 +133,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //Кнопка 1
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    setState(() {});
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepPurple,
-                    ),
-                    child: Center(
-                      child: Text(
-                        Get_TITLEcontainer(a, b, another_title),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
+                PjButton(title: 'Подписаться', onTap: (){}),
                 SizedBox(
                   width: 20,
                 ),
-                //Кнопка 2
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    setState(() {});
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepPurple,
-                    ),
-                    child: Center(
-                      child: Text(
-                        Get_TITLEcontainer(a, b, !another_title),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
+                PjButton(title: 'Написать', onTap: (){}),
                 SizedBox(
                   height: 20,
                 ),
@@ -182,16 +147,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  ///Функция для получения заголовка кнопки ррр
-  String Get_TITLEcontainer(String a, String b, bool mode) {
-    String title;
-    if (mode) {
-      title = a;
-    } else {
-      title = b;
-    }
-    return title;
   }
 }
